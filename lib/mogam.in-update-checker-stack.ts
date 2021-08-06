@@ -10,11 +10,16 @@ export class MogamInUpdateCheckerStack extends cdk.Stack {
     const checkerFunction = new lambda.Function(this, 'checker', {
       code: lambda.Code.fromAsset("resources"),
       handler: "index.checker",
-      runtime: lambda.Runtime.NODEJS_14_X
+      runtime: lambda.Runtime.NODEJS_14_X,
+      environment: {
+        VERCEL_DEPLOY_HOOK_URL: process.env.VERCEL_DEPLOY_HOOK_URL!,
+        SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL!
+      },
+      timeout: cdk.Duration.seconds(10)
     });
 
     const checkerRule = new events.Rule(this, 'updateCheckerRule', {
-      schedule: events.Schedule.cron({minute: "*/1"}) // TODO: 実行間隔伸ばす
+      schedule: events.Schedule.cron({minute: "*/15"})
     });
     checkerRule.addTarget(new eventsTargets.LambdaFunction(checkerFunction))
   }

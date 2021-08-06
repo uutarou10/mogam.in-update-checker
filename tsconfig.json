@@ -20,7 +20,7 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
 //    "allowSyntheticDefaultImports": true,
-//    "esModuleInterop": true,
+    "esModuleInterop": true,
     "typeRoots": [
       "./node_modules/@types"
     ]
